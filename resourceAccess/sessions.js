@@ -1,10 +1,10 @@
-const users = require('../models/users.js');
+const sessions = require('../models/sessions.js');
 module.exports = {
     insert: (data) => {
         data.createdAt = new Date();
-        return users.create(data);
+        return sessions.create(data);
     },
-    
+
     findAll: (data) => {
         var condition = data.condition ? data.condition : null,
             sort = data.sort ? data.sort : null,
@@ -14,7 +14,7 @@ module.exports = {
             limit = data.limit ? data.limit : null;
         select.map(obj => { project[obj] = 1 });
 
-        return users.aggregate([
+        return sessions.aggregate([
             { $match: condition },
             { $sort: sort },
             { $project: { ...project } },
@@ -28,6 +28,6 @@ module.exports = {
             select = data.select ? data.select : null,
             project = {};
         select.map(obj => { project[obj] = 1 });
-        return users.findOne(condition, { ...project });
+        return sessions.findOne(condition, { ...project });
     },
 }
